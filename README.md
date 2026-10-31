@@ -288,20 +288,6 @@ python -m unittest discover -s tests -v
   `tev1:0.8b`. That is a measurement question, and the demos are
   built to answer it.
 
-## Before pushing
-
-This scaffold is local-only. The remote repo does not exist yet:
-
-1. Create the empty **public** repo `ollama-jev-decision-demo` on
-   GitHub (the Meta Muse GitHub App cannot create repos).
-2. Add it to the App's repo selection.
-3. Then push this directory and open a PR for review.
-
-Suggested description: "Demo: Jev-style decision models via Ollama's
-/v1/systemone API — typed answers (choice, yes/no, score) with
-probabilities and confidence, locally, no generative prose. Three
-QA-flavoured demos with timing measurement. Stdlib-only Python."
-
 ## License
 
 MIT — see [LICENSE](LICENSE).
