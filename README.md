@@ -4,11 +4,11 @@ A small demo repo for trying **Jev-style decision models** through
 Ollama — local models that answer typed questions instead of
 generating prose. No new dependencies: Python standard library only.
 
-> Status: scaffold built and unit-tested in the sandbox against a
-> **mocked** endpoint. No live decision-model run has happened yet —
-> the live runs (and the timing numbers) are your iMac's job. See
-> [Test documentation](#test-documentation) for exactly what is
-> proven and what is not.
+> Status: **live-verified.** The ticket-triage demo ran on a CPU-only
+> 2017 iMac (Ollama 0.40.10): `tev1:0.8b` answers 3 typed questions per
+> case in ~3.0 s steady-state with all 4 labels correct; `tev1` (4B)
+> takes ~16.9 s/case and mislabeled one case the smaller model got
+> right. See [Live timing on CPU](#live-timing-on-cpu-measured-2026-10-31) for the numbers.
 
 ## What a decision model is (and is not)
 
@@ -276,17 +276,21 @@ python -m unittest discover -s tests -v
 - README claims were checked against the code (endpoint, types,
   field names) and against Ollama's official post.
 
-### What is live-only (your iMac's job, not proven here)
+### Live timing on CPU (measured 2026-10-31)
 
-- `ollama --version` is 0.35+ (a 404 on `/v1/systemone` means it
-  is not).
-- `ollama pull tev1:0.8b` (then `tev1`, `nimble` if you want them).
-- The three demos against real models, and the timing numbers they
-  print. Until those run, treat every speed expectation as
-  unmeasured — including, especially, the 91 ms M5 Max figure.
-- Whether `nimble` is worth its 9.5 GB on CPU-only hardware versus
-  `tev1:0.8b`. That is a measurement question, and the demos are
-  built to answer it.
+Ticket-triage demo, 4 cases × 3 typed questions, 2017 iMac
+(i7-7700K, CPU-only), Ollama 0.40.10. Steady-state excludes the first
+case (model load):
+
+| Model | Per case | Per question | Labels correct |
+|---|---|---|---|
+| tev1:0.8b | 3.0 s | 1.0 s | 4/4 |
+| tev1 (4B) | 16.9 s | 5.6 s | 3/4 |
+
+The 4B model was 5.5x slower **and** labeled the checkout-500-errors
+ticket "billing" (62.6%) where the 0.8B model correctly said "bug"
+(74.7%). Bigger ≠ better here — and neither is near the 91 ms M5 Max
+figure, as expected on CPU. `nimble` (9B) not measured yet.
 
 ## License
 
